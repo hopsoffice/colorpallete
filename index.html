@@ -1,0 +1,708 @@
+<html>
+    <head>
+        <style>
+                * {
+                    font-size: 30px;
+                }
+
+                .colorList {
+                    display: flex;
+                    flex-wrap: wrap;
+                    margin: 0;
+                    padding: 0;
+                    width: 960px;
+                }
+                .colorPallete {
+                    display: inline-flex;
+                    flex-direction: column;
+                    margin-bottom: 30px;
+                    width: 200px;
+                }
+
+                .colorPallete:not(:last-child) {
+                    margin-right: 40px;
+                }
+
+                .colorName {
+                    font-size: 15px;
+                }
+
+                .colorBox {
+                    padding: 20px;
+                    margin-bottom: 10px;
+                    width: 150px;
+                }
+
+                #show {
+                    margin-top: 20px;
+                }
+        </style>
+    </head>
+    <body>
+        <div>
+            <label>
+                color
+                #<input type="text" id="color" />
+            </label>
+
+            <label>
+                opacity
+                <input type="text" id="opacity" />
+            </label>
+
+            <ul id="show" class="colorList">
+            </ul>
+        </div>
+
+        <div>
+            <h1>All</h1>
+
+            <ul class="colorList" id="allColorList">
+            </ul>
+        </div>
+
+        <script>
+            const colors = [
+              {
+                "name": "R50",
+                "color": "ffebe6"
+              },
+              {
+                "name": "R75",
+                "color": "ffbdad"
+              },
+              {
+                "name": "R100",
+                "color": "ff8f73"
+              },
+              {
+                "name": "R200",
+                "color": "ff7452"
+              },
+              {
+                "name": "R300",
+                "color": "ff5630"
+              },
+              {
+                "name": "R400",
+                "color": "de350b"
+              },
+              {
+                "name": "R500",
+                "color": "bf2600"
+              },
+              {
+                "name": "Y50",
+                "color": "fffae6"
+              },
+              {
+                "name": "Y75",
+                "color": "fff0b3"
+              },
+              {
+                "name": "Y100",
+                "color": "ffe380"
+              },
+              {
+                "name": "Y200",
+                "color": "ffc400"
+              },
+              {
+                "name": "Y300",
+                "color": "ffab00"
+              },
+              {
+                "name": "Y400",
+                "color": "ff991f"
+              },
+              {
+                "name": "Y500",
+                "color": "ff8b00"
+              },
+              {
+                "name": "G50",
+                "color": "e3fcef"
+              },
+              {
+                "name": "G75",
+                "color": "abf5d1"
+              },
+              {
+                "name": "G100",
+                "color": "79f2c0"
+              },
+              {
+                "name": "G200",
+                "color": "57d9a3"
+              },
+              {
+                "name": "G300",
+                "color": "36b37e"
+              },
+              {
+                "name": "G400",
+                "color": "00875a"
+              },
+              {
+                "name": "G500",
+                "color": "006644"
+              },
+              {
+                "name": "B50",
+                "color": "deebff"
+              },
+              {
+                "name": "B75",
+                "color": "b3d4ff"
+              },
+              {
+                "name": "B100",
+                "color": "4c9aff"
+              },
+              {
+                "name": "B200",
+                "color": "2684ff"
+              },
+              {
+                "name": "B300",
+                "color": "0065ff"
+              },
+              {
+                "name": "B400",
+                "color": "0052cc"
+              },
+              {
+                "name": "B500",
+                "color": "0747a6"
+              },
+              {
+                "name": "P50",
+                "color": "eae6ff"
+              },
+              {
+                "name": "P75",
+                "color": "c0b6f2"
+              },
+              {
+                "name": "P100",
+                "color": "998dd9"
+              },
+              {
+                "name": "P200",
+                "color": "8777d9"
+              },
+              {
+                "name": "P300",
+                "color": "6554c0"
+              },
+              {
+                "name": "P400",
+                "color": "5243aa"
+              },
+              {
+                "name": "P500",
+                "color": "403294"
+              },
+              {
+                "name": "T50",
+                "color": "e6fcff"
+              },
+              {
+                "name": "T75",
+                "color": "b3f5ff"
+              },
+              {
+                "name": "T100",
+                "color": "79e2f2"
+              },
+              {
+                "name": "T200",
+                "color": "00c7e6"
+              },
+              {
+                "name": "T300",
+                "color": "00b8d9"
+              },
+              {
+                "name": "T400",
+                "color": "00a3bf"
+              },
+              {
+                "name": "T500",
+                "color": "008da6"
+              },
+              {
+                "name": "N0",
+                "color": "ffffff"
+              },
+              {
+                "name": "N10",
+                "color": "fafbfc"
+              },
+              {
+                "name": "N20",
+                "color": "f4f5f7"
+              },
+              {
+                "name": "N30",
+                "color": "ebecf0"
+              },
+              {
+                "name": "N40",
+                "color": "dfe1e6"
+              },
+              {
+                "name": "N50",
+                "color": "c1c7d0"
+              },
+              {
+                "name": "N60",
+                "color": "b3bac5"
+              },
+              {
+                "name": "N70",
+                "color": "a5adba"
+              },
+              {
+                "name": "N80",
+                "color": "97a0af"
+              },
+              {
+                "name": "N90",
+                "color": "8993a4"
+              },
+              {
+                "name": "N100",
+                "color": "7a869a"
+              },
+              {
+                "name": "N200",
+                "color": "6b778c"
+              },
+              {
+                "name": "N300",
+                "color": "5e6c84"
+              },
+              {
+                "name": "N400",
+                "color": "505f79"
+              },
+              {
+                "name": "N500",
+                "color": "42526e"
+              },
+              {
+                "name": "N600",
+                "color": "344563"
+              },
+              {
+                "name": "N700",
+                "color": "253858"
+              },
+              {
+                "name": "N800",
+                "color": "172b4d"
+              },
+              {
+                "name": "N900",
+                "color": "091e42"
+              },
+              {
+                "name": "N10A",
+                "color": "091e42",
+                "opacity": "0.02"
+              },
+              {
+                "name": "N20A",
+                "color": "091e42",
+                "opacity": "0.04"
+              },
+              {
+                "name": "N30A",
+                "color": "091e42",
+                "opacity": "0.08"
+              },
+              {
+                "name": "N40A",
+                "color": "091e42",
+                "opacity": "0.13"
+              },
+              {
+                "name": "N50A",
+                "color": "091e42",
+                "opacity": "0.25"
+              },
+              {
+                "name": "N60A",
+                "color": "091e42",
+                "opacity": "0.31"
+              },
+              {
+                "name": "N70A",
+                "color": "091e42",
+                "opacity": "0.36"
+              },
+              {
+                "name": "N80A",
+                "color": "091e42",
+                "opacity": "0.42"
+              },
+              {
+                "name": "N90A",
+                "color": "091e42",
+                "opacity": "0.48"
+              },
+              {
+                "name": "N100A",
+                "color": "091e42",
+                "opacity": "0.54"
+              },
+              {
+                "name": "N200A",
+                "color": "091e42",
+                "opacity": "0.6"
+              },
+              {
+                "name": "N300A",
+                "color": "091e42",
+                "opacity": "0.66"
+              },
+              {
+                "name": "N400A",
+                "color": "091e42",
+                "opacity": "0.71"
+              },
+              {
+                "name": "N500A",
+                "color": "091e42",
+                "opacity": "0.77"
+              },
+              {
+                "name": "N600A",
+                "color": "091e42",
+                "opacity": "0.82"
+              },
+              {
+                "name": "N700A",
+                "color": "091e42",
+                "opacity": "0.89"
+              },
+              {
+                "name": "N800A",
+                "color": "091e42",
+                "opacity": "0.95"
+              },
+              {
+                "name": "DN900",
+                "color": "e6edfa"
+              },
+              {
+                "name": "DN800",
+                "color": "dce5f5"
+              },
+              {
+                "name": "DN700",
+                "color": "ced9eb"
+              },
+              {
+                "name": "DN600",
+                "color": "b8c7e0"
+              },
+              {
+                "name": "DN500",
+                "color": "abbbd6"
+              },
+              {
+                "name": "DN400",
+                "color": "9fb0cc"
+              },
+              {
+                "name": "DN300",
+                "color": "8c9cb8"
+              },
+              {
+                "name": "DN200",
+                "color": "7988a3"
+              },
+              {
+                "name": "DN100",
+                "color": "67758f"
+              },
+              {
+                "name": "DN90",
+                "color": "56637a"
+              },
+              {
+                "name": "DN80",
+                "color": "455166"
+              },
+              {
+                "name": "DN70",
+                "color": "3b475c"
+              },
+              {
+                "name": "DN60",
+                "color": "313d52"
+              },
+              {
+                "name": "DN50",
+                "color": "283447"
+              },
+              {
+                "name": "DN40",
+                "color": "202b3d"
+              },
+              {
+                "name": "DN30",
+                "color": "1b2638"
+              },
+              {
+                "name": "DN20",
+                "color": "121a29"
+              },
+              {
+                "name": "DN10",
+                "color": "0e1624"
+              },
+              {
+                "name": "DN0",
+                "color": "0d1424"
+              },
+              {
+                "name": "DN800A",
+                "color": "0d1424",
+                "opacity": "0.06"
+              },
+              {
+                "name": "DN700A",
+                "color": "0d1424",
+                "opacity": "0.14"
+              },
+              {
+                "name": "DN600A",
+                "color": "0d1424",
+                "opacity": "0.18"
+              },
+              {
+                "name": "DN500A",
+                "color": "0d1424",
+                "opacity": "0.29"
+              },
+              {
+                "name": "DN400A",
+                "color": "0d1424",
+                "opacity": "0.36"
+              },
+              {
+                "name": "DN300A",
+                "color": "0d1424",
+                "opacity": "0.4"
+              },
+              {
+                "name": "DN200A",
+                "color": "0d1424",
+                "opacity": "0.47"
+              },
+              {
+                "name": "DN100A",
+                "color": "0d1424",
+                "opacity": "0.53"
+              },
+              {
+                "name": "DN90A",
+                "color": "0d1424",
+                "opacity": "0.63"
+              },
+              {
+                "name": "DN80A",
+                "color": "0d1424",
+                "opacity": "0.73"
+              },
+              {
+                "name": "DN70A",
+                "color": "0d1424",
+                "opacity": "0.78"
+              },
+              {
+                "name": "DN60A",
+                "color": "0d1424",
+                "opacity": "0.81"
+              },
+              {
+                "name": "DN50A",
+                "color": "0d1424",
+                "opacity": "0.85"
+              },
+              {
+                "name": "DN40A",
+                "color": "0d1424",
+                "opacity": "0.89"
+              },
+              {
+                "name": "DN30A",
+                "color": "0d1424",
+                "opacity": "0.92"
+              },
+              {
+                "name": "DN20A",
+                "color": "0d1424",
+                "opacity": "0.95"
+              },
+              {
+                "name": "DN10A",
+                "color": "0d1424",
+                "opacity": "0.97"
+              },
+              {
+                "name": "background",
+                "color": "ffffff"
+              },
+              {
+                "name": "backgroundActive",
+                "color": "deebff"
+              },
+              {
+                "name": "backgroundHover",
+                "color": "ebecf0"
+              },
+              {
+                "name": "backgroundOnLayer",
+                "color": "ffffff"
+              },
+              {
+                "name": "text",
+                "color": "091e42"
+              },
+              {
+                "name": "textHover",
+                "color": "172b4d"
+              },
+              {
+                "name": "textActive",
+                "color": "0052cc"
+              },
+              {
+                "name": "subtleText",
+                "color": "6b778c"
+              },
+              {
+                "name": "placeholderText",
+                "color": "7a869a"
+              },
+              {
+                "name": "heading",
+                "color": "172b4d"
+              },
+              {
+                "name": "subtleHeading",
+                "color": "6b778c"
+              },
+              {
+                "name": "codeBlock",
+                "color": "f4f5f7"
+              },
+              {
+                "name": "link",
+                "color": "0052cc"
+              },
+              {
+                "name": "linkHover",
+                "color": "0065ff"
+              },
+              {
+                "name": "linkActive",
+                "color": "0747a6"
+              },
+              {
+                "name": "linkOutline",
+                "color": "4c9aff"
+              },
+              {
+                "name": "primary",
+                "color": "0052cc"
+              },
+              {
+                "name": "blue",
+                "color": "0052cc"
+              },
+              {
+                "name": "teal",
+                "color": "00b8d9"
+              },
+              {
+                "name": "purple",
+                "color": "6554c0"
+              },
+              {
+                "name": "red",
+                "color": "ff5630"
+              },
+              {
+                "name": "yellow",
+                "color": "ffab00"
+              },
+              {
+                "name": "green",
+                "color": "36b37e"
+              },
+              {
+                "name": "skeleton",
+                "color": "091e42",
+                "opacity": "0.04"
+              }
+            ]
+
+            const ul = document.querySelector('#allColorList');
+            const appendColorBox = (target, { name, color, opacity}) => {
+                const li = document.createElement('li');
+                const div = document.createElement('div');
+                const div2 = document.createElement('div');
+                const txt = document.createTextNode(name);
+                div.setAttribute('class', 'colorBox');
+                div2.setAttribute('class', 'colorName');
+                li.setAttribute('class', 'colorPallete');
+                li.appendChild(txt);
+                
+                if (opacity === undefined) {
+                    div2.innerText = `#${color}`;
+                    div.style.cssText = `background-color: #${color}`;
+                } else {
+                    div2.innerText = `#${color} , opacity: ${opacity}`;
+                    div.style.cssText = `background-color: #${color}; opacity: ${opacity}`;
+                }
+
+                li.appendChild(div2);
+                li.appendChild(div);
+                target.appendChild(li);
+            };
+            colors.forEach((payload) => {
+                appendColorBox(ul, payload);
+            });
+
+            const handleFindColor = (selectedColor, selectedOpacity) => {
+                const show = document.querySelector('#show');
+                const div = document.createElement('div');
+                show.innerHTML = '';
+
+                for (const payload of colors) {
+                    const { name, color, opacity } = payload;
+                    if (selectedOpacity !== '' && color === selectedColor && opacity === selectedOpacity) {
+                        appendColorBox(show, payload);
+                    } else if (selectedOpacity === '' && color === selectedColor) {
+                        appendColorBox(show, payload);
+                    }
+                }
+            };
+            const colorInput = document.querySelector('#color');
+            const opacityInput = document.querySelector('#opacity');
+
+            colorInput.addEventListener('keyup', (e) => {
+                handleFindColor(e.currentTarget.value, opacityInput.value);
+            });
+
+            opacity.addEventListener('keyup', (e) => {
+                handleFindColor(colorInput.value, e.currentTarget.value);
+            });
+        </script>
+    </body>
+<html>
